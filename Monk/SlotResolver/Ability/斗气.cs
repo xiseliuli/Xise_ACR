@@ -11,7 +11,7 @@ public class 斗气 : ISlotResolver
 {
     public int Check()
     {
-        return 0;
+        return Core.Me.Level < 40 ? -1 : 0;
     }
 
     public void Build(Slot slot)
@@ -25,6 +25,7 @@ public class 斗气 : ISlotResolver
                 // 使用AOE技能
                 slot.Add(Spells.万象斗气圈adaptive.GetSpell());
             }
+
             slot.Add(Spells.阴阳斗气斩adaptive.GetSpell());
             // 使用斗气技能
         }

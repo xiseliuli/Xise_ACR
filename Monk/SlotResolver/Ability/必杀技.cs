@@ -1,4 +1,5 @@
-﻿using AEAssist.CombatRoutine.Module;
+﻿using AEAssist;
+using AEAssist.CombatRoutine.Module;
 using AEAssist.Helper;
 using Xise.Monk.SlotResolver.Data;
 
@@ -8,7 +9,7 @@ public class 必杀技
 {
     public int Check()
     {
-        return 0;
+        return Core.Me.Level < 60 ? -1 : 0;
     }
 
     public void Build(Slot slot)

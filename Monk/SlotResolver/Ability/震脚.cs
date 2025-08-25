@@ -1,4 +1,5 @@
-﻿using AEAssist.MemoryApi;
+﻿using AEAssist;
+using AEAssist.MemoryApi;
 using Xise.Monk.SlotResolver.Data;
 using AEAssist.CombatRoutine.Module;
 using AEAssist.Helper;
@@ -10,6 +11,8 @@ public class 震脚
 {
     public int Check()
     {
+        if (Core.Me.Level < 40) return -1;
+
         MemApiSpell api = new MemApiSpell();
 
         // 在爆发前开
