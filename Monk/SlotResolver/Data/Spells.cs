@@ -30,6 +30,13 @@ public class Spells
         阴阳斗气斩 = 3547,
         万象斗气圈 = 16474,
         // 必杀
+        翻天脚 = 25765,
+        苍气炮 = 3545,
+        梦幻斗舞 = 25769,
+        凤凰舞 = 25768,
+        真空波 = 36948,
+        斗魂旋风脚 = 3543,
+        爆裂脚 = 25882,
         必杀技 = 25764,
         // 爆发
         红莲极意 = 7395,
@@ -52,6 +59,7 @@ public class Spells
         真北 = 7546,
         //其他
         冲刺 = 3,
+        轻身步法 = 25762,
         六合星导脚 = 16476,
         亲疏自行 = 7548,
         扫腿 = 7863;
@@ -76,7 +84,7 @@ public class Spells
             >= 92 => 豹袭崩拳,
             _ => 崩拳
         };
-    
+
     public static uint 破坏神脚adaptive =>
         Core.Me.Level switch
         {
@@ -84,7 +92,7 @@ public class Spells
             _ => 破坏神冲
         };
 
-    public static uint 攒豆子adaptive =>
+    public static uint 斗气adaptive =>
         Core.Me.Level switch
         {
             >= 74 => 万象斗气,
@@ -92,18 +100,39 @@ public class Spells
             >= 40 => 空鸣斗气,
             _ => 铁山斗气
         };
-    
+
     public static uint 阴阳斗气斩adaptive =>
         Core.Me.Level switch
         {
             >= 54 => 阴阳斗气斩,
             _ => 铁山靠
         };
-    
+
     public static uint 万象斗气圈adaptive =>
         Core.Me.Level switch
         {
             >= 74 => 万象斗气圈,
             _ => 空鸣拳
+        };
+
+    public static uint 凤凰舞adaptive =>
+        Core.Me.Level switch
+        {
+            >= 86 => 凤凰舞,
+            _ => 爆裂脚
+        };
+
+    public static uint 真空波adaptive =>
+        Core.Me.Level switch
+        {
+            >= 92 => 真空波,
+            _ => 苍气炮
+        };
+
+    public static uint 梦幻斗舞adaptive =>
+        Core.Me.Level switch
+        {
+            >= 90 => 梦幻斗舞,
+            _ => 斗魂旋风脚
         };
 }

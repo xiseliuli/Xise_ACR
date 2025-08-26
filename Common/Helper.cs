@@ -86,7 +86,11 @@ public static class Helper
         List<uint> 自身团辅 = [灼热之光, 星空, 占卜, 义结金兰, 战斗连祷, 大舞, 战斗之声, 鼓励, 神秘环];
         return 自身团辅.Any(buff => BuffTimeLessThan(buff, 15000));
     }
-
+    
+    public static MemApiCondition MemApi = new MemApiCondition();
+    
+    public static MemApiSpell MemApiSpell = new MemApiSpell();
+    
 
     private static uint
         背刺 = 3849,

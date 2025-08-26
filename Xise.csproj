@@ -26,9 +26,4 @@
         <PackageReference Include="AEAssist.NET" Version="*" ExcludeAssets="runtime" />
     </ItemGroup>
 
-    
-    <ItemGroup>
-      <Folder Include="Monk\SlotResolver\Opener\" />
-    </ItemGroup>
-
 </Project>

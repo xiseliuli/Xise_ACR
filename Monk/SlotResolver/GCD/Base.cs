@@ -4,6 +4,7 @@ using AEAssist.Extension;
 using AEAssist.Helper;
 using AEAssist.JobApi;
 using AEAssist.MemoryApi;
+using Xise.Common;
 using Xise.Monk.SlotResolver.Data;
 
 namespace Xise.Monk.SlotResolver.GCD;
@@ -12,7 +13,8 @@ public class Base : ISlotResolver
 {
     private static bool 猛豹身形 => Core.Me.HasAura(Buffs.猛豹身形);
     private static bool 盗龙身形 => Core.Me.HasAura(Buffs.盗龙身形);
-    private static bool 战斗 => new MemApiCondition().IsInCombat();
+    private static bool 无相身形 => Core.Me.HasAura(Buffs.无相身形);
+    private static bool Is战斗 => Helper.MemApi.IsInCombat();
 
 
     public int Check()
@@ -22,31 +24,36 @@ public class Base : ISlotResolver
 
     public void Build(Slot slot)
     {
-        var mnk = Core.Resolve<JobApi_Monk>();
-        if (mnk.Chakra >= 5)
+        uint 必杀技 = Helper.MemApiSpell.CheckActionChange(Spells.必杀技);
+
+        if (必杀技 != Spells.必杀技)
         {
-            var enemyCount = TargetHelper.GetNearbyEnemyCount(10);
-            if (enemyCount >= 3)
+            if (Helper.In团辅())
             {
-                // 使用AOE技能
-                slot.Add(Spells.万象斗气圈adaptive.GetSpell());
+                slot.Add(必杀技.GetSpell());
+                return;
             }
 
-            slot.Add(Spells.阴阳斗气斩adaptive.GetSpell());
-            // 使用斗气技能
+            int 红莲剩余cd = Helper.MemApiSpell.GetCooldown(Spells.红莲极意).Seconds;
+            if (红莲剩余cd > 8)
+            {
+                slot.Add(必杀技.GetSpell());
+                return;
+            }
         }
+
 
         if (猛豹身形)
         {
-            slot.Add(mnk.CoeurlFury > 0 ? Spells.崩拳adaptive.GetSpell() : Spells.破碎拳.GetSpell());
+            slot.Add(MonkHelper.MonkApi.CoeurlFury > 0 ? Spells.崩拳adaptive.GetSpell() : Spells.破碎拳.GetSpell());
         }
         else if (盗龙身形)
         {
-            slot.Add(mnk.RaptorFury > 0 ? Spells.正拳adaptive.GetSpell() : Spells.双掌打.GetSpell());
+            slot.Add(MonkHelper.MonkApi.RaptorFury > 0 ? Spells.正拳adaptive.GetSpell() : Spells.双掌打.GetSpell());
         }
         else
         {
-            slot.Add(mnk.OpoOpoFury > 0 ? Spells.连击adaptive.GetSpell() : Spells.双龙脚.GetSpell());
+            slot.Add(MonkHelper.MonkApi.OpoOpoFury > 0 ? Spells.连击adaptive.GetSpell() : Spells.双龙脚.GetSpell());
         }
     }
 }
