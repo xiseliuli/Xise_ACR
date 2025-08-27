@@ -78,13 +78,13 @@ public static class Helper
 
     public static bool In团辅()
     {
-        //检测目标团辅
+        // 检测目标团辅 - 当目标有团辅Buff时使用团辅技能
         List<uint> 目标团辅 = [背刺, 连环计];
-        if (目标团辅.Any(buff => BuffTimeLessThan(buff, 15000))) return true;
+        if (目标团辅.Any(buff => Core.Me?.GetCurrTarget()?.HasAura(buff) == true)) return true;
 
-        //检测自身团辅
+        // 检测自身团辅 - 当自身有团辅Buff时使用团辅技能
         List<uint> 自身团辅 = [灼热之光, 星空, 占卜, 义结金兰, 战斗连祷, 大舞, 战斗之声, 鼓励, 神秘环];
-        return 自身团辅.Any(buff => BuffTimeLessThan(buff, 15000));
+        return 自身团辅.Any(buff => Core.Me?.HasAura(buff) == true);
     }
     
     public static MemApiCondition MemApi = new MemApiCondition();
