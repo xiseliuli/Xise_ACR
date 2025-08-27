@@ -5,7 +5,6 @@ namespace Xise.Monk;
 
 public class MonkHelper
 {
-    
-    public static JobApi_Monk MonkApi = new JobApi_Monk();
-    
+    // ✅ 使用依赖注入获取API实例
+    public static JobApi_Monk MonkApi => Core.Resolve<JobApi_Monk>();
 }
