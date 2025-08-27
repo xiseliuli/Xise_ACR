@@ -14,23 +14,20 @@ public class MonkRotationEntry : IRotationEntry, IDisposable
 
     private readonly Jobs _targetJob = Jobs.Monk;
     private readonly AcrType _acrType = AcrType.Both; //高难专用
-    private readonly int _minLevel = 15;
+    private readonly int _minLevel = 60;
     private readonly int _maxLevel = 100;
 
 
     private readonly List<SlotResolverData> _slotResolvers =
     [
-        new(new 团辅(), SlotMode.OffGcd),
-        new(new 必杀技(), SlotMode.OffGcd),
-
         // 能力技
+        new(new 团辅(), SlotMode.OffGcd),
         new(new 斗气(), SlotMode.OffGcd),
         new(new 震脚(), SlotMode.OffGcd),
         
-        
         // GCD
+        new(new 必杀技(), SlotMode.OffGcd),
         new(new Base(), SlotMode.Gcd),
-
     ];
 
 
