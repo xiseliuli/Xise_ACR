@@ -1,7 +1,8 @@
-﻿using AEAssist.CombatRoutine.Module;
+﻿using AEAssist;
+using AEAssist.CombatRoutine.Module;
 using AEAssist.CombatRoutine.Module.Opener;
 using AEAssist.Helper;
-using Xise.Monk.QtUI;
+using Xise.Monk.SlotResolver.Ability;
 using Xise.Monk.SlotResolver.Data;
 
 namespace Xise.Monk.SlotResolver.Opener;
@@ -10,33 +11,40 @@ public class OpenerBase : IOpener
 {
     public int StartCheck()
     {
-        if (Spells.红莲极意.GetSpell().IsReadyWithCanCast()) return -1;
-        if (Spells.义结金兰.GetSpell().IsReadyWithCanCast()) return -2;
+        // 核心爆发就绪检查：红莲极意、义结金兰
+        if (!Spells.红莲极意.GetSpell().IsReadyWithCanCast()) return -2;
+        if (!Spells.义结金兰.GetSpell().IsReadyWithCanCast()) return -3;
+
+        if (Core.Me.Level >= 60 && !Spells.必杀技.GetSpell().IsReadyWithCanCast()) return -4;
+
         return 0;
     }
 
     public int StopCheck(int index)
     {
+        // 不强制中断
         return -1;
     }
 
-    public List<Action<Slot>> Sequence { get; } =
-    [
-        Step1,
-    ];
-
     public void InitCountDown(CountDownHandler handler)
     {
-        Qt.Reset();
+        // 预拉时间（ms）
+        const int startTime = 15000;
 
-        const int startTime = 5000;
-        handler.AddAction(startTime, Spells.演武);
-        handler.AddAction(startTime - 2000, Spells.斗气adaptive);
+        // 开场10s 真言 
+        if (MonkHelper.队里有贤者or学者) handler.AddAction(startTime - 5000, Data.Spells.真言);
+
+        handler.AddAction(startTime - 10000, Spells.演武);
+        handler.AddAction(startTime - 12500, Spells.斗气adaptive);
     }
 
-    public static void Step1(Slot slot)
+    private static void Step1(Slot slot)
     {
         // slot.Add(Spells.双龙脚.GetSpell());
     }
 
+    public List<Action<Slot>> Sequence { get; } =
+    [
+        Step1
+    ];
 }
