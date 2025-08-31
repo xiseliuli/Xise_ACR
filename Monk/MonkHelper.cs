@@ -1,4 +1,7 @@
 ﻿using AEAssist;
+using AEAssist.CombatRoutine;
+using AEAssist.Extension;
+using AEAssist.Helper;
 using AEAssist.JobApi;
 using AEAssist.MemoryApi;
 
@@ -28,4 +31,9 @@ public class MonkHelper
         NadiCounter.Lunar = 0;
         NadiCounter.Solar = 0;
     }
+    
+    
+    public static bool 队里有贤者or学者 => 
+        PartyHelper.Party.FirstOrDefault(p => p.CurrentJob() == Jobs.Scholar) != null ||
+        PartyHelper.Party.FirstOrDefault(p => p.CurrentJob() == Jobs.Sage) != null;
 }
