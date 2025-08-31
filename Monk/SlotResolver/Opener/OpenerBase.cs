@@ -36,7 +36,7 @@ public class OpenerBase : IOpener
 
     public static void Step1(Slot slot)
     {
-        slot.Add(Spells.双龙脚.GetSpell());
+        // slot.Add(Spells.双龙脚.GetSpell());
     }
 
 }

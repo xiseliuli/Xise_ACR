@@ -20,15 +20,17 @@ public class MonkRotationEntry : IRotationEntry, IDisposable
 
     private readonly List<SlotResolverData> _slotResolvers =
     [
-        new(new 团辅(), SlotMode.OffGcd),
-        new(new 必杀技(), SlotMode.OffGcd),
 
         // 能力技
-        new(new 斗气(), SlotMode.OffGcd),
         new(new 震脚(), SlotMode.OffGcd),
-        
+        new(new 斗气(), SlotMode.OffGcd),
+        new(new 团辅(), SlotMode.OffGcd),
+        new(new 疾风极意(), SlotMode.OffGcd),
         
         // GCD
+        new(new 必杀技(), SlotMode.Gcd),
+        new(new 乾坤斗气弹(), SlotMode.Gcd),
+        new(new 绝空拳(), SlotMode.Gcd),
         new(new Base(), SlotMode.Gcd),
 
     ];
@@ -41,15 +43,11 @@ public class MonkRotationEntry : IRotationEntry, IDisposable
         var rot = new Rotation(_slotResolvers)
         {
             TargetJob = _targetJob,
-            AcrType = _acrType,
-            MinLevel = _minLevel,
-            MaxLevel = _maxLevel,
+            // AcrType = _acrType,
+            // MinLevel = _minLevel,
+            // MaxLevel = _maxLevel,
         };
         rot.AddOpener(level => level < _minLevel ? null : new OpenerBase());
-        // rot.SetRotationEventHandler(new EventHandler());
-        // rot.AddTriggerAction(new TriggerActionQt(), new TriggerActionHotkey(), new 提拉纳阈值设置());
-        // rot.AddTriggerCondition(new TriggerCondQt());
-        // rot.AddCanUseHighPrioritySlotCheck(Helper.HighPrioritySlotCheckFunc);
         return rot;
     }
 

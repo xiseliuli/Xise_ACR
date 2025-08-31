@@ -24,11 +24,15 @@ public class 震脚 : ISlotResolver
         // int 震脚剩余cd = Helper.MemApiSpell.GetCooldown(Spells.震脚).Seconds;
         int 红莲剩余cd = Helper.MemApiSpell.GetCooldown(Spells.红莲极意).Seconds;
         int 桃园剩余cd = Helper.MemApiSpell.GetCooldown(Spells.义结金兰).Seconds;
-
-
+        
         // 在爆发前开
-        if (红莲剩余cd < 3 ||
-            桃园剩余cd < 3)
+        if (
+            Spells.震脚.GetSpell().IsReadyWithCanCast() &&
+            (Core.Me.HasAura(Buffs.义结金兰攻击) ||
+             Helper.In团辅() ||
+             红莲剩余cd < 3 ||
+             桃园剩余cd < 3)
+        )
         {
             return 0;
         }
