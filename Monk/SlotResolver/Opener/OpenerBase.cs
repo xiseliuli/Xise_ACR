@@ -37,14 +37,8 @@ public class OpenerBase : IOpener
         handler.AddAction(startTime - 10000, Spells.演武);
         handler.AddAction(startTime - 12500, Spells.斗气adaptive);
     }
-
-    private static void Step1(Slot slot)
-    {
-        // slot.Add(Spells.双龙脚.GetSpell());
-    }
-
+    
     public List<Action<Slot>> Sequence { get; } =
     [
-        Step1
     ];
 }
