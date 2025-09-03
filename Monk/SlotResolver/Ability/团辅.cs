@@ -11,8 +11,11 @@ public class 团辅 : ISlotResolver
 {
     public int Check()
     {
+        long currBattleTimeInMs = AI.Instance.BattleData.CurrBattleTimeInMs;
         // 检查等级要求
         if (Core.Me?.Level < 68) return -1;
+
+        if (currBattleTimeInMs < 4 * 1000) return -1;
 
         // 检查技能可用性
         if (!Spells.红莲极意.GetSpell().IsReadyWithCanCast() &&
@@ -20,7 +23,7 @@ public class 团辅 : ISlotResolver
 
         // 检查震脚状态
         if (Core.Me?.HasAura(Buffs.震脚) == true) return 0;
-        
+
         // 检查是否在团辅状态
         if (Helper.In团辅()) return 0;
 
