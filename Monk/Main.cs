@@ -32,6 +32,7 @@ public class MonkRotationEntry : IRotationEntry, IDisposable
         new(new 乾坤斗气弹(), SlotMode.Gcd),
         new(new 绝空拳(), SlotMode.Gcd),
         new(new Base(), SlotMode.Gcd),
+        new(new 攒豆子(), SlotMode.Gcd),
 
     ];
 
