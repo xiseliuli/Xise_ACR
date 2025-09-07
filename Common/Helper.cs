@@ -1,4 +1,5 @@
-﻿using AEAssist;
+﻿using System.Runtime.InteropServices;
+using AEAssist;
 using AEAssist.MemoryApi;
 using AEAssist.CombatRoutine;
 using AEAssist.Extension;
@@ -86,11 +87,11 @@ public static class Helper
         List<uint> 自身团辅 = [灼热之光, 星空, 占卜, 义结金兰, 战斗连祷, 大舞, 战斗之声, 鼓励, 神秘环];
         return 自身团辅.Any(buff => Core.Me?.HasAura(buff) == true);
     }
-    
+
     public static MemApiCondition MemApi = new MemApiCondition();
-    
+
     public static MemApiSpell MemApiSpell = new MemApiSpell();
-    
+
 
     private static uint
         背刺 = 3849,
@@ -105,4 +106,46 @@ public static class Helper
         鼓励 = 1239,
         神秘环 = 2599,
         连环计 = 2617;
+
+    public static class Stop
+    {
+        private const uint 加速度炸弹4144 = 4144;
+        private const uint 加速度炸弹3802 = 3802;
+        private const uint 加速度炸弹3793 = 3793;
+        private const uint 加速度炸弹1384 = 1384;
+        private const uint 加速度炸弹2657 = 2657;
+        private const uint 加速度炸弹1072 = 1072;
+        private const uint 热病960 = 960;
+        private const uint 热病639 = 639;
+        private const uint 热病3522 = 3522;
+        private const uint 热病1599 = 1599;
+        private const uint 热病1133 = 1133;
+        private const uint 热病1049 = 1049;
+        private const uint 无敌325 = 325;
+        private const uint 无敌529 = 529;
+        private const uint 无敌656 = 656;
+        private const uint 无敌671 = 671;
+        private const uint 无敌775 = 775;
+        private const uint 无敌776 = 776;
+        private const uint 无敌969 = 969;
+        private const uint 无敌981 = 981;
+        private const uint 无敌1570 = 1570;
+        private const uint 无敌1697 = 1697;
+        private const uint 无敌1829 = 1829;
+        private const uint 土神的心石 = 328;
+        private const uint 纯正神圣领域 = 2287;
+        private const uint 风神障壁 = 3012;
+
+        public static readonly List<uint> TargetCancel = new()
+        {
+            加速度炸弹4144, 加速度炸弹3802, 加速度炸弹3793, 加速度炸弹1384, 加速度炸弹2657, 加速度炸弹1072,
+            热病960, 热病639, 热病3522, 热病1599, 热病1133, 热病1049
+        };
+
+        public static readonly List<uint> StopSpell = new()
+        {
+            无敌325, 无敌529, 无敌656, 无敌671, 无敌775, 无敌776, 无敌969, 无敌981,
+            无敌1570, 无敌1697, 无敌1829, 土神的心石, 纯正神圣领域, 风神障壁
+        };
+    }
 }

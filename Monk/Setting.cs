@@ -7,6 +7,19 @@ public class MonkSettings
 {
     public static MonkSettings Instance;
     
+    // 基础设置
+    public bool ShowToast = true; // 显示Toast通知
+    public bool RestoreQtSet = true; // 恢复QT设置
+    public int OpenerWindow = 1; // 开场窗口设置 (0=2层震脚, 1=1层震脚)
+    
+    // 智能战斗设置
+    public bool NoBurst = false; // 小怪低血量不交爆发
+    public bool PullingNoBurst = false; // 拉怪中不交爆发
+    public float MinMobHpPercent = 30.0f; // 小怪血量百分比阈值
+    public float MinTTK = 5000.0f; // 最小击杀时间阈值(毫秒)
+    public float ConcentrationThreshold = 70.0f; // 敌人集中度阈值
+    public float AttackRange = 3.0f; // 攻击范围
+    
     private static string path;
 
     public static void Build(string settingPath)
@@ -79,4 +92,5 @@ public class MonkSettings
     {
         QtUnVisibleList = []
     }; // QT设置存档
+
 }

@@ -20,27 +20,26 @@ public class MonkRotationEntry : IRotationEntry, IDisposable
 
     private readonly List<SlotResolverData> _slotResolvers =
     [
-
         // 能力技
         new(new 震脚(), SlotMode.OffGcd),
         new(new 斗气(), SlotMode.OffGcd),
         new(new 团辅(), SlotMode.OffGcd),
         new(new 疾风极意(), SlotMode.OffGcd),
-        
+
         // GCD
         new(new 必杀技(), SlotMode.Gcd),
         new(new 乾坤斗气弹(), SlotMode.Gcd),
         new(new 绝空拳(), SlotMode.Gcd),
         new(new Base(), SlotMode.Gcd),
         new(new 攒豆子(), SlotMode.Gcd),
-
     ];
 
 
-    public Rotation? Build(string settingFolder)
+    public Rotation Build(string settingFolder)
     {
         MonkSettings.Build(settingFolder);
         Qt.Build();
+        
         var rot = new Rotation(_slotResolvers)
         {
             TargetJob = _targetJob,
@@ -48,7 +47,12 @@ public class MonkRotationEntry : IRotationEntry, IDisposable
             // MinLevel = _minLevel,
             // MaxLevel = _maxLevel,
         };
-        rot.AddOpener(level => level < _minLevel ? null : new OpenerBase());
+        
+        // 注册起手爆发
+        rot.AddOpener(level => level < 60 ? null : new OpenerBase());
+        
+        // 注册核心事件处理
+        rot.SetRotationEventHandler(new MonkRotationEventHandler());
         return rot;
     }
 

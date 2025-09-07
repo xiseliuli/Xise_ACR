@@ -4,6 +4,7 @@ using AEAssist.Extension;
 using AEAssist.Helper;
 using Xise.Common;
 using Xise.Monk.SlotResolver.Data;
+using Xise.Monk.QtUI;
 
 namespace Xise.Monk.SlotResolver.Ability;
 
@@ -21,6 +22,12 @@ public class 团辅 : ISlotResolver
         if (!Spells.红莲极意.GetSpell().IsReadyWithCanCast() &&
             !Spells.义结金兰.GetSpell().IsReadyWithCanCast()) return -1;
 
+        // 检查QT设置
+        bool 义结金兰可用 = Qt.Instance?.GetQt("义结金兰") == true;
+        bool 红莲极意可用 = Qt.Instance?.GetQt("红莲极意") == true;
+        
+        if (!义结金兰可用 && !红莲极意可用) return -1;
+
         // 检查震脚状态
         if (Core.Me?.HasAura(Buffs.震脚) == true) return 0;
 
@@ -36,11 +43,11 @@ public class 团辅 : ISlotResolver
     public void Build(Slot slot)
     {
         // 添加义结金兰技能
-        if (Spells.义结金兰.GetSpell().IsReadyWithCanCast())
+        if (Qt.Instance?.GetQt("义结金兰") == true && Spells.义结金兰.GetSpell().IsReadyWithCanCast())
             slot.Add(Spells.义结金兰.GetSpell());
 
         // 添加红莲极意技能
-        if (Spells.红莲极意.GetSpell().IsReadyWithCanCast())
+        if (Qt.Instance?.GetQt("红莲极意") == true && Spells.红莲极意.GetSpell().IsReadyWithCanCast())
             slot.Add(Spells.红莲极意.GetSpell());
     }
 }

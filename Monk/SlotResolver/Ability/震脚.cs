@@ -8,6 +8,7 @@ using AEAssist.JobApi;
 using Dalamud.Game.ClientState.JobGauge.Enums;
 using Dalamud.Game.ClientState.Objects.Types;
 using Xise.Common;
+using Xise.Monk.QtUI;
 
 
 namespace Xise.Monk.SlotResolver.Ability;
@@ -19,6 +20,9 @@ public class 震脚 : ISlotResolver
         if (Core.Me.Level < 40) return -1;
         if (Core.Me.HasAura(Buffs.震脚) || Core.Me.HasAura(Buffs.无相身形)) return -1;
         if (Helper.MemApiSpell.CheckActionChange(Spells.必杀技) != Spells.必杀技) return -1;
+
+        // 检查QT设置
+        if (Qt.Instance?.GetQt("震脚") != true) return -1;
 
         // bool 震脚可用 = Spells.震脚.GetSpell().IsReadyWithCanCast();
         // int 震脚剩余cd = Helper.MemApiSpell.GetCooldown(Spells.震脚).Seconds;

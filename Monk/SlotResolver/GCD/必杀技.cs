@@ -46,20 +46,6 @@ public class 必杀技 : ISlotResolver
 
     public void Build(Slot slot)
     {
-        if (Get必杀技 == Spells.真空波adaptive)
-        {
-            MonkHelper.NadiCounter.Lunar += 1;
-            Qt.Instance.SetQt("下一个打阴", false);
-        }
-        else if (Get必杀技 == Spells.凤凰舞adaptive)
-        {
-            MonkHelper.NadiCounter.Solar += 1;
-        }
-        else if (Get必杀技 == Spells.梦幻斗舞adaptive)
-        {
-            MonkHelper.ResetNadiCounter();
-        }
-
         // 添加必杀技
         slot.Add(Get必杀技.GetSpell());
     }

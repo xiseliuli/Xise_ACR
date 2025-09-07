@@ -4,6 +4,7 @@ using AEAssist.Extension;
 using AEAssist.Helper;
 using AEAssist.JobApi;
 using Xise.Monk.SlotResolver.Data;
+using Xise.Monk.QtUI;
 
 namespace Xise.Monk.SlotResolver.Ability;
 
@@ -17,6 +18,9 @@ public class 斗气 : ISlotResolver
         // 检查目标是否可攻击
         var target = Core.Me?.GetCurrTarget();
         if (target?.CanAttack() != true) return -1;
+        
+        // 检查QT设置
+        if (Qt.Instance?.GetQt("攒功力") != true) return -1;
         
         return 0;
     }

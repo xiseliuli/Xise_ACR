@@ -23,8 +23,15 @@ public class Qt
         Instance.SetQt("双阴起手", true);
         Instance.SetQt("最终爆发", false);
         Instance.SetQt("攒功力", false);
-        Instance.SetQt("下一个打阴", false);
+        Instance.SetQt("下一个打阴", true);
         Instance.SetQt("自动真北", false);
+        Instance.SetQt("自动演武", true);
+        Instance.SetQt("搓豆子", false);
+        Instance.SetQt("AOE攒震脚", false);
+        Instance.SetQt("义结金兰", true);
+        Instance.SetQt("红莲极意", true);
+        Instance.SetQt("疾风极意", true);
+        Instance.SetQt("震脚", true);
         MonkHelper.ResetNadiCounter();
     }
 
@@ -38,8 +45,15 @@ public class Qt
         Instance.AddQt("最终爆发", false);
         Instance.AddQt("攒功力", false);
         Instance.AddQt("下一个打阴", true);
+        Instance.AddQt("下一个打阳", true);
         Instance.AddQt("自动真北", true);
-
+        Instance.AddQt("自动演武", true);
+        Instance.AddQt("搓豆子", false);
+        Instance.AddQt("AOE攒震脚", false);
+        Instance.AddQt("义结金兰", true);
+        Instance.AddQt("红莲极意", true);
+        Instance.AddQt("疾风极意", true);
+        Instance.AddQt("震脚", true);
 
         Instance.AddHotkey("LB", new HotKeyResolver_LB());
         Instance.AddHotkey("疾跑", new HotKeyResolver_疾跑());
@@ -48,7 +62,6 @@ public class Qt
         Instance.AddHotkey("六合星导脚", new 六合星导脚());
 
         Instance.AddHotkey("极限技", new HotKeyResolver_LB());
-        Instance.AddHotkey("爆发药", new HotKeyResolver_Potion());
         Instance.AddHotkey("震脚", new HotKeyResolver_NormalSpell(Spells.震脚, (SpellTargetType)1, false));
         Instance.AddHotkey("牵制", new HotKeyResolver_NormalSpell(Spells.牵制, 0, false));
         Instance.AddHotkey("亲疏自行", new HotKeyResolver_NormalSpell(Spells.亲疏自行, (SpellTargetType)1, false));
