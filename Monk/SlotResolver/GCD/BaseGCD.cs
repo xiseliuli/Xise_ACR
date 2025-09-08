@@ -13,16 +13,16 @@ using Xise.Monk.QtUI;
 
 namespace Xise.Monk.SlotResolver.GCD;
 
-public class Base : ISlotResolver
+public class BaseGCD : ISlotResolver
 {
     private readonly JobApi_Monk _monkApi;
 
-    private int nearbyEnemies;
-    private bool isAOEEnabled;
+    private static int nearbyEnemies;
+    private static bool isAOEEnabled;
     private bool HasLunar;
     private bool HasSolar;
 
-    public Base()
+    public BaseGCD()
     {
         // ✅ 使用依赖注入获取API实例
         _monkApi = Core.Resolve<JobApi_Monk>();
@@ -54,7 +54,7 @@ public class Base : ISlotResolver
         HasSolar = (_monkApi.Nadi & Nadi.Solar) != 0;
     }
 
-    public void CheckAOE()
+    public static void CheckAOE()
     {
         // 获取AOE设置状态
         isAOEEnabled = Qt.Instance?.GetQt("AOE") ?? true;
