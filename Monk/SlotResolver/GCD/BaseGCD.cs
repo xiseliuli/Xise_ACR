@@ -15,22 +15,15 @@ namespace Xise.Monk.SlotResolver.GCD;
 
 public class BaseGCD : ISlotResolver
 {
-    private readonly JobApi_Monk _monkApi;
+    private static readonly JobApi_Monk _monkApi = Core.Resolve<JobApi_Monk>();
+    
+    public static bool isAOEEnabled;
 
     private static int nearbyEnemies;
-    private static bool isAOEEnabled;
-    private bool HasLunar;
-    private bool HasSolar;
 
-    public BaseGCD()
-    {
-        // ✅ 使用依赖注入获取API实例
-        _monkApi = Core.Resolve<JobApi_Monk>();
-    }
-
-    private bool 猛豹身形 => Core.Me?.HasAura(Buffs.猛豹身形) == true;
-    private bool 盗龙身形 => Core.Me?.HasAura(Buffs.盗龙身形) == true;
-    private bool 无相身形 => Core.Me?.HasAura(Buffs.无相身形) == true;
+    public static bool 猛豹身形 => Core.Me?.HasAura(Buffs.猛豹身形) == true;
+    public static bool 盗龙身形 => Core.Me?.HasAura(Buffs.盗龙身形) == true;
+    private static bool 无相身形 => Core.Me?.HasAura(Buffs.无相身形) == true;
     private bool 震脚状态 => Core.Me?.HasAura(Buffs.震脚) == true;
     private bool Is战斗 => Helper.MemApi?.IsInCombat() == true;
 
@@ -47,12 +40,6 @@ public class BaseGCD : ISlotResolver
         return 0;
     }
 
-    // 检查必杀斗气
-    public void CheckNadi()
-    {
-        HasLunar = (_monkApi.Nadi & Nadi.Lunar) != 0;
-        HasSolar = (_monkApi.Nadi & Nadi.Solar) != 0;
-    }
 
     public static void CheckAOE()
     {
@@ -62,31 +49,25 @@ public class BaseGCD : ISlotResolver
         nearbyEnemies = TargetHelper.GetNearbyEnemyCount((IBattleChara)Core.Me, 5, 5);
     }
 
-    public void Build(Slot slot)
+    public static uint GetSpellId()
     {
-        // 更新AOE检测
-        CheckAOE();
-
         // 检查最终爆发模式
         if (Qt.Instance?.GetQt("最终爆发") == true)
         {
             // 最终爆发模式：优先使用斗气技能
             if (_monkApi?.CoeurlFury > 0 && 猛豹身形)
             {
-                slot.Add(Spells.崩拳adaptive.GetSpell());
-                return;
+                return Spells.崩拳adaptive;
             }
 
             if (_monkApi?.RaptorFury > 0 && 盗龙身形)
             {
-                slot.Add(Spells.正拳adaptive.GetSpell());
-                return;
+                return Spells.正拳adaptive;
             }
 
             if (_monkApi?.OpoOpoFury > 0)
             {
-                slot.Add(Spells.连击adaptive.GetSpell());
-                return;
+                return Spells.连击adaptive;
             }
         }
 
@@ -100,32 +81,27 @@ public class BaseGCD : ISlotResolver
                 // 无相身形AOE
                 if (Core.Me?.Level >= 82)
                 {
-                    slot.Add(Spells.破坏神脚.GetSpell());
+                    return Spells.破坏神脚;
                 }
                 else if (Core.Me?.Level >= 52)
                 {
-                    slot.Add(Spells.地烈劲.GetSpell());
+                    return Spells.地烈劲;
                 }
-
-                return;
             }
             else if (猛豹身形 && Core.Me?.Level >= 30)
             {
                 // 猛豹身形AOE
-                slot.Add(Spells.地烈劲.GetSpell());
-                return;
+                return Spells.地烈劲;
             }
             else if (盗龙身形 && Core.Me?.Level >= 18)
             {
                 // 盗龙身形AOE
-                slot.Add(Spells.四面脚.GetSpell());
-                return;
+                return Spells.四面脚;
             }
             else if (Core.Me?.Level >= 26)
             {
                 // 默认身形AOE
-                slot.Add(Spells.破坏神冲.GetSpell());
-                return;
+                return Spells.破坏神冲;
             }
         }
 
@@ -135,69 +111,45 @@ public class BaseGCD : ISlotResolver
             // 攒功力模式：优先使用基础技能积累斗气
             if (猛豹身形)
             {
-                slot.Add(Spells.破碎拳.GetSpell());
-                return;
+                return Spells.破碎拳;
             }
 
             if (盗龙身形)
             {
-                slot.Add(Spells.双掌打.GetSpell());
-                return;
+                return Spells.双掌打;
             }
 
-            slot.Add(Spells.双龙脚.GetSpell());
-            return;
-        }
-
-        if (Core.Me?.HasAura(Buffs.震脚) == true)
-        {
-            // 更新阴阳斗气
-            CheckNadi();
-            if (Qt.Instance.GetQt("下一个打阴") || !HasLunar)
-            {
-                slot.Add(_monkApi?.CoeurlFury > 0 ? Spells.崩拳adaptive.GetSpell() : Spells.破碎拳.GetSpell());
-                return;
-            }
-
-            if (!_monkApi.BeastChakra.Contains(BeastChakra.Coeurl))
-            {
-                slot.Add(_monkApi?.CoeurlFury > 0 ? Spells.崩拳adaptive.GetSpell() : Spells.破碎拳.GetSpell());
-                return;
-            }
-
-            if (!_monkApi.BeastChakra.Contains(BeastChakra.Raptor))
-            {
-                slot.Add(_monkApi?.RaptorFury > 0 ? Spells.正拳adaptive.GetSpell() : Spells.双掌打.GetSpell());
-                return;
-            }
-
-            if (!_monkApi.BeastChakra.Contains(BeastChakra.OpoOpo))
-            {
-                slot.Add(_monkApi?.OpoOpoFury > 0 ? Spells.连击adaptive.GetSpell() : Spells.双龙脚.GetSpell());
-                return;
-            }
+            return Spells.双龙脚;
         }
 
         // 根据身形状态选择技能
         if (猛豹身形)
         {
             // 猛豹身形：根据斗气量选择技能
-            slot.Add(_monkApi?.CoeurlFury > 0 ? Spells.崩拳adaptive.GetSpell() : Spells.破碎拳.GetSpell());
+            return _monkApi?.CoeurlFury > 0 ? Spells.崩拳adaptive : Spells.破碎拳;
         }
         else if (盗龙身形)
         {
             // 盗龙身形：根据斗气量选择技能
-            slot.Add(_monkApi?.RaptorFury > 0 ? Spells.正拳adaptive.GetSpell() : Spells.双掌打.GetSpell());
+            return _monkApi?.RaptorFury > 0 ? Spells.正拳adaptive : Spells.双掌打;
         }
         else if (无相身形)
         {
             // 无相身形：根据斗气量选择技能
-            slot.Add(_monkApi?.OpoOpoFury > 0 ? Spells.连击adaptive.GetSpell() : Spells.双龙脚.GetSpell());
+            return _monkApi?.OpoOpoFury > 0 ? Spells.连击adaptive : Spells.双龙脚;
         }
         else
         {
             // 默认身形：根据斗气量选择技能
-            slot.Add(_monkApi?.OpoOpoFury > 0 ? Spells.连击adaptive.GetSpell() : Spells.双龙脚.GetSpell());
+            return _monkApi?.OpoOpoFury > 0 ? Spells.连击adaptive : Spells.双龙脚;
         }
+    }
+
+    public void Build(Slot slot)
+    {
+        // 更新AOE检测
+        CheckAOE();
+
+        slot.Add(GetSpellId().GetSpell());
     }
 }

@@ -19,9 +19,6 @@ public class 斗气 : ISlotResolver
         var target = Core.Me?.GetCurrTarget();
         if (target?.CanAttack() != true) return -1;
         
-        // 检查QT设置
-        if (Qt.Instance?.GetQt("攒功力") != true) return -1;
-        
         return 0;
     }
 

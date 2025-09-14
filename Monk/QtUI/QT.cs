@@ -20,6 +20,7 @@ public class Qt
     public static void Reset()
     {
         Instance.SetQt("AOE", true);
+        Instance.SetQt("自动真北", true);
         Instance.SetQt("双阴起手", true);
         Instance.SetQt("最终爆发", false);
         Instance.SetQt("攒功力", false);
@@ -40,15 +41,16 @@ public class Qt
         Instance = new JobViewWindow(MonkSettings.Instance.JobViewSave, MonkSettings.Instance.Save, "XiseMonk");
 
         Instance.AddQt("爆发药", true);
+        Instance.SetQt("自动真北", true);
         Instance.SetQt("AOE", true);
         Instance.AddQt("双阴起手", true);
         Instance.AddQt("最终爆发", false);
         Instance.AddQt("攒功力", false);
         Instance.AddQt("下一个打阴", true);
-        Instance.AddQt("下一个打阳", true);
+        Instance.AddQt("下一个打阳", false);
         Instance.AddQt("自动真北", true);
         Instance.AddQt("自动演武", true);
-        Instance.AddQt("搓豆子", false);
+        Instance.AddQt("搓豆子", true);
         Instance.AddQt("AOE攒震脚", false);
         Instance.AddQt("义结金兰", true);
         Instance.AddQt("红莲极意", true);

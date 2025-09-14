@@ -1,5 +1,6 @@
 ﻿using AEAssist.CombatRoutine;
 using AEAssist.CombatRoutine.Module;
+using AEAssist.Helper;
 using Xise.Common;
 using Xise.Monk.QtUI;
 using Xise.Monk.SlotResolver.GCD;
@@ -17,18 +18,22 @@ public class MonkRotationEntry : IRotationEntry, IDisposable
     private readonly int _minLevel = 15;
     private readonly int _maxLevel = 100;
 
+    public static MonkRotationEntry Instance { get; private set; }
 
     private readonly List<SlotResolverData> _slotResolvers =
     [
         // 能力技
         new(new 震脚(), SlotMode.OffGcd),
+        new(new 自动真北(), SlotMode.OffGcd),
         new(new 斗气(), SlotMode.OffGcd),
-        new(new 团辅(), SlotMode.OffGcd),
+        new(new 义结金兰(), SlotMode.OffGcd),
+        new(new 红莲极意(), SlotMode.OffGcd),
         new(new 疾风极意(), SlotMode.OffGcd),
 
         // GCD
         new(new 必杀技(), SlotMode.Gcd),
         new(new 乾坤斗气弹(), SlotMode.Gcd),
+        new(new 震脚GCD(), SlotMode.Gcd),
         new(new 绝空拳(), SlotMode.Gcd),
         new(new BaseGCD(), SlotMode.Gcd),
         new(new 攒豆子(), SlotMode.Gcd),
@@ -39,18 +44,18 @@ public class MonkRotationEntry : IRotationEntry, IDisposable
     {
         MonkSettings.Build(settingFolder);
         Qt.Build();
-        
+
         var rot = new Rotation(_slotResolvers)
         {
             TargetJob = _targetJob,
-            // AcrType = _acrType,
-            // MinLevel = _minLevel,
-            // MaxLevel = _maxLevel,
+            AcrType = _acrType,
+            MinLevel = _minLevel,
+            MaxLevel = _maxLevel,
         };
-        
+
         // 注册起手爆发
         rot.AddOpener(level => level < 60 ? null : new OpenerBase());
-        
+
         // 注册核心事件处理
         rot.SetRotationEventHandler(new MonkRotationEventHandler());
         return rot;
