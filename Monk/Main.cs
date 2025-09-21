@@ -14,8 +14,8 @@ public class MonkRotationEntry : IRotationEntry, IDisposable
     public string AuthorName { get; set; } = Helper.AuthorName;
 
     private readonly Jobs _targetJob = Jobs.Monk;
-    private readonly AcrType _acrType = AcrType.Both; //高难专用
-    private readonly int _minLevel = 15;
+    private readonly AcrType _acrType = AcrType.Normal;
+    private readonly int _minLevel = 1;
     private readonly int _maxLevel = 100;
 
     public static MonkRotationEntry Instance { get; private set; }

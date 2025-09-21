@@ -12,13 +12,13 @@ namespace Xise.Monk.SlotResolver.GCD;
 
 public class 必杀技 : ISlotResolver
 {
-    private readonly JobApi_Monk _monkApi;
+    private readonly JobApi_Monk MonkApi;
     private uint Get必杀技;
 
     public 必杀技()
     {
         // ✅ 使用依赖注入获取API实例
-        _monkApi = Core.Resolve<JobApi_Monk>();
+        MonkApi = Core.Resolve<JobApi_Monk>();
     }
 
     public void Check必杀技()
@@ -38,7 +38,7 @@ public class 必杀技 : ISlotResolver
         // 检查震脚状态
         if (Core.Me.HasAura(Buffs.震脚) || Core.Me.HasAura(Buffs.无相身形)) return -1;
 
-        if (!Core.Me.HasAura(Buffs.红莲极意) && (_monkApi.BlitzTimeRemaining / 1000) >
+        if (!Core.Me.HasAura(Buffs.红莲极意) && (MonkApi.BlitzTimeRemaining / 1000) >
             ((Helper.MemApiSpell?.GetCooldown(Spells.红莲极意).Seconds ?? 0) + 3)) return -1;
 
         return 0;

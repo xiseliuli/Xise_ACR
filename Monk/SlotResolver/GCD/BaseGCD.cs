@@ -15,7 +15,7 @@ namespace Xise.Monk.SlotResolver.GCD;
 
 public class BaseGCD : ISlotResolver
 {
-    private static readonly JobApi_Monk _monkApi = Core.Resolve<JobApi_Monk>();
+    private static readonly JobApi_Monk MonkApi = Core.Resolve<JobApi_Monk>();
     
     public static bool isAOEEnabled;
 
@@ -55,17 +55,17 @@ public class BaseGCD : ISlotResolver
         if (Qt.Instance?.GetQt("最终爆发") == true)
         {
             // 最终爆发模式：优先使用斗气技能
-            if (_monkApi?.CoeurlFury > 0 && 猛豹身形)
+            if (MonkApi?.CoeurlFury > 0 && 猛豹身形)
             {
                 return Spells.崩拳adaptive;
             }
 
-            if (_monkApi?.RaptorFury > 0 && 盗龙身形)
+            if (MonkApi?.RaptorFury > 0 && 盗龙身形)
             {
                 return Spells.正拳adaptive;
             }
 
-            if (_monkApi?.OpoOpoFury > 0)
+            if (MonkApi?.OpoOpoFury > 0)
             {
                 return Spells.连击adaptive;
             }
@@ -126,22 +126,22 @@ public class BaseGCD : ISlotResolver
         if (猛豹身形)
         {
             // 猛豹身形：根据斗气量选择技能
-            return _monkApi?.CoeurlFury > 0 ? Spells.崩拳adaptive : Spells.破碎拳;
+            return MonkApi?.CoeurlFury > 0 ? Spells.崩拳adaptive : Spells.破碎拳;
         }
         else if (盗龙身形)
         {
             // 盗龙身形：根据斗气量选择技能
-            return _monkApi?.RaptorFury > 0 ? Spells.正拳adaptive : Spells.双掌打;
+            return MonkApi?.RaptorFury > 0 ? Spells.正拳adaptive : Spells.双掌打;
         }
         else if (无相身形)
         {
             // 无相身形：根据斗气量选择技能
-            return _monkApi?.OpoOpoFury > 0 ? Spells.连击adaptive : Spells.双龙脚;
+            return MonkApi?.OpoOpoFury > 0 ? Spells.连击adaptive : Spells.双龙脚;
         }
         else
         {
             // 默认身形：根据斗气量选择技能
-            return _monkApi?.OpoOpoFury > 0 ? Spells.连击adaptive : Spells.双龙脚;
+            return MonkApi?.OpoOpoFury > 0 ? Spells.连击adaptive : Spells.双龙脚;
         }
     }
 

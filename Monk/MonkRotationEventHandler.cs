@@ -22,6 +22,8 @@ using System.Linq;
 using System.Numerics;
 using System.Reflection;
 using System.Threading.Tasks;
+using Dalamud.Game.ClientState.JobGauge.Enums;
+using ECommons;
 using Xise.Common;
 using Xise.Monk.QtUI;
 using Xise.Monk.SlotResolver.Data;
@@ -37,7 +39,7 @@ public class MonkRotationEventHandler : IRotationEventHandler
     public static bool IsInvul = false;
 
     // 必杀计数
-    public int PerfectBalanceCount = 0;
+    public static int FinishingMoveCount = 1;
 
     // 无目标
     public static bool NoTarget = false;
@@ -94,6 +96,8 @@ public class MonkRotationEventHandler : IRotationEventHandler
     public void OnResetBattle()
     {
         IsInvul = false;
+        if (Core.Resolve<JobApi_Monk>().Nadi == Nadi.None)
+            FinishingMoveCount = 1;
     }
 
     // 无目标
@@ -145,17 +149,15 @@ public class MonkRotationEventHandler : IRotationEventHandler
     // 技能之后
     public void AfterSpell(Slot slot, Spell spell)
     {
-        if (spell == Spells.震脚.GetSpell() && Spells.红莲极意.GetSpell().IsUnlock())
-            ++PerfectBalanceCount;
-        if (spell == Spells.红莲极意.GetSpell())
+        LogHelper.Print($"{spell.Id} {Spells.必杀.IndexOf(spell.Id) != -1}");
+        if (Spells.必杀.IndexOf(spell.Id) != -1)
+            ++FinishingMoveCount;
+        if (spell == SpellHelper.GetSpell(7395U))
             AI.Instance.BattleData.CurrGcdAbilityCount = 0;
-        if ((spell == Spells.凤凰舞adaptive.GetSpell() || spell == Spells.梦幻斗舞adaptive.GetSpell()) &&
+        if ((spell == SpellHelper.GetSpell(25768U) || spell == SpellHelper.GetSpell(25882U)) &&
             Qt.Instance.GetQt("下一个打阳"))
-        {
             Qt.Instance.SetQt("下一个打阳", false);
-        }
-
-        if (spell != Spells.真空波adaptive.GetSpell() ||
+        if (spell != SpellHelper.GetSpell(3545U) && spell != SpellHelper.GetSpell(36948U) ||
             !Qt.Instance.GetQt("下一个打阴"))
             return;
         Qt.Instance.SetQt("下一个打阴", false);
