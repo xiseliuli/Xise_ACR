@@ -26,8 +26,8 @@ public class 自动真北 : ISlotResolver
         if (Core.Me.HasAura(Buffs.真北))
             return -4;
         uint spellId = Core.Me.HasAura(Buffs.震脚) ? 震脚GCD.GetSpellId() : BaseGCD.GetSpellId();
-        if ((spellId == Spells.崩拳adaptive || spellId == Spells.破碎拳) &&
-            (spellId == Spells.崩拳adaptive && Helper.IsFlanking) ||
+        if (spellId != Spells.崩拳adaptive && spellId != Spells.破碎拳) return -4;
+        if ((spellId == Spells.崩拳adaptive && Helper.IsFlanking) ||
             (spellId == Spells.破碎拳 && Helper.IsBehind)) return -5;
         return 0;
     }
